@@ -107,3 +107,47 @@ describe("Test for forward", () => {
 		expect(rover.position).toEqual([5, 5]);
 	});
 });
+
+describe("test for runInstructions()", () => {
+	it("should do nothing if empty or no instructions", () => {
+		rover = new Rover([5, 5], [0, 0], NORTH);
+
+		rover.runInstructions();
+
+		expect(rover.position).toEqual([0, 0]);
+	});
+
+	it("should correctly run valid instructions", () => {
+		rover = new Rover([5, 5], [0, 0], NORTH, "M");
+		rover.runInstructions();
+		expect(rover.position).toEqual([0, 1]);
+		expect(rover.direction).toEqual(NORTH);
+
+		rover = new Rover([5, 5], [0, 0], NORTH, "R");
+		rover.runInstructions();
+		expect(rover.position).toEqual([0, 0]);
+		expect(rover.direction).toEqual(EAST);
+
+		rover = new Rover([5, 5], [0, 0], NORTH, "L");
+		rover.runInstructions();
+		expect(rover.position).toEqual([0, 0]);
+		expect(rover.direction).toEqual(WEST);
+
+		rover = new Rover([5, 5], [1, 2], NORTH, "LMLMLMLMM");
+		rover.runInstructions();
+		expect(rover.position).toEqual([1, 3]);
+		expect(rover.direction).toEqual(NORTH);
+
+		rover = new Rover([5, 5], [3, 3], EAST, "MMRMMRMRRM");
+		rover.runInstructions();
+		expect(rover.position).toEqual([5, 1]);
+		expect(rover.direction).toEqual(EAST);
+	});
+
+	it("should not do anything if instructions are not valid", () => {
+		rover = new Rover([5, 5], [0, 0], NORTH, "HIHI");
+		rover.runInstructions();
+		expect(rover.position).toEqual([0, 0]);
+		expect(rover.direction).toEqual(NORTH);
+	});
+});

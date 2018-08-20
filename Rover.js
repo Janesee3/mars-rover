@@ -18,6 +18,14 @@ class Rover {
 		this.instructions = instructions; // eg. "LRMM"
 	}
 
+	runInstructions() {
+		if (!this.instructions) return;
+
+		this.instructions.split("").forEach(instruction => {
+			this.move(instruction);
+		});
+	}
+
 	move(instruction) {
 		switch (instruction) {
 			case LEFT:
@@ -27,10 +35,10 @@ class Rover {
 				this.direction = this.turnRight(this.direction);
 				break;
 			case FORWARD:
-				// do something
+				this.forward();
 				break;
 			default:
-				console.log(`${instruction} is not a legal instruction.`);
+				return;
 		}
 	}
 
