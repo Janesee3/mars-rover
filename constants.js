@@ -1,15 +1,16 @@
-const DIRECTION = {
-	NORTH: "N",
-	SOUTH: "S",
-	EAST: "E",
-	WEST: "W"
-};
+const NORTH = "N";
+const SOUTH = "S";
+const EAST = "E";
+const WEST = "W";
 
 const POS_X = 0;
 const POS_Y = 1;
 
 module.exports = {
-	DIRECTION,
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST,
 	POS_X,
 	POS_Y
 };
