@@ -16,7 +16,18 @@ const turnLeft = initDirection => {
 };
 
 const turnRight = initDirection => {
-	return;
+	switch (initDirection) {
+		case NORTH:
+			return EAST;
+		case EAST:
+			return SOUTH;
+		case SOUTH:
+			return WEST;
+		case WEST:
+			return NORTH;
+		default:
+			return initDirection;
+	}
 };
 
 module.exports = {
