@@ -27,7 +27,6 @@ const readSizeInput = async () => {
 };
 
 const readRoversInput = async () => {
-	console.log(getUserInput);
 	const numOfRovers = await getUserInput(
 		"Specify total number of rovers (e.g. 2): "
 	);
@@ -38,12 +37,10 @@ const readRoversInput = async () => {
 };
 
 const readAndAddRover = async (roverIndex, plateauSize) => {
-	console.log(getUserInput);
 	const roverPosInput = await getUserInput(
 		`Rover #${roverIndex} initial position (e.g. 1 2 N): `
 	);
 
-	console.log(getUserInput);
 	const roverInstructions = await getUserInput(
 		`Instructions for Rover #${roverIndex} (e.g. LMR): `
 	);
