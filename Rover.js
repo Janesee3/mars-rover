@@ -5,12 +5,15 @@ const {
 	WEST,
 	LEFT,
 	RIGHT,
-	FORWARD
+	FORWARD,
+	POS_X,
+	POS_Y
 } = require("./constants");
 
 class Rover {
-	constructor(initPosition, initDirection, instructions) {
-		this.position = initPosition; // eg [x, y]
+	constructor(maxPosition, initPosition, initDirection, instructions) {
+		this.maxPosition = maxPosition; // eg [x, y]
+		this.position = initPosition;
 		this.direction = initDirection; // eg. "N"
 		this.instructions = instructions; // eg. "LRMM"
 	}
@@ -59,6 +62,41 @@ class Rover {
 			default:
 				return initDirection;
 		}
+	}
+
+	forward() {
+		let newPos = Array.from(this.position);
+
+		switch (this.direction) {
+			case NORTH:
+				newPos[POS_Y] += 1;
+				break;
+
+			case EAST:
+				newPos[POS_X] += 1;
+				break;
+
+			case SOUTH:
+				newPos[POS_Y] -= 1;
+				break;
+
+			case WEST:
+				newPos[POS_X] -= 1;
+				break;
+			default:
+				break;
+		}
+
+		if (this.isLegalPosition(newPos)) {
+			this.position = newPos;
+		}
+	}
+
+	isLegalPosition(position) {
+		return (
+			position[POS_X] <= this.maxPosition[POS_X] &&
+			position[POS_Y] <= this.maxPosition[POS_Y]
+		);
 	}
 }
 
