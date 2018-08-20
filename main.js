@@ -1,33 +1,84 @@
 const { getUserInput, rl } = require("./readline-helper");
+const { parsePositionInput, parseSizeInput } = require("./utils");
+const { POS_X, POS_Y } = require("./constants");
+const Rover = require("./Rover");
+
+const rovers = [];
+let plateauSize = [-1, -1];
 
 const main = async () => {
-	const plataeuInput = await getUserInput(
+	await readSizeInput();
+	await readRoversInput();
+	processAndPrintOutput();
+	rl.close();
+};
+
+const readSizeInput = async () => {
+	const sizeInput = await getUserInput(
 		"Specify the size of the Mars plateau (e.g. 5 5): "
 	);
 
+	plateauSize = parseSizeInput(sizeInput);
+
+	if (plateauSize == null) {
+		console.log("Invalid Plateau Size! Please run the program again.");
+		process.exit();
+	}
+};
+
+const readRoversInput = async () => {
+	console.log(getUserInput);
 	const numOfRovers = await getUserInput(
 		"Specify total number of rovers (e.g. 2): "
 	);
 
 	for (let i = 0; i < numOfRovers; i++) {
-		await readRover(i + 1);
+		await readAndAddRover(i + 1, plateauSize);
 	}
-
-	console.log(
-		"The final coordinates of the mars rover is: <replace with the output of your program>"
-	);
-
-	rl.close();
 };
 
-const readRover = async roverIndex => {
-	const roverInitPos = await getUserInput(
+const readAndAddRover = async (roverIndex, plateauSize) => {
+	console.log(getUserInput);
+	const roverPosInput = await getUserInput(
 		`Rover #${roverIndex} initial position (e.g. 1 2 N): `
 	);
 
+	console.log(getUserInput);
 	const roverInstructions = await getUserInput(
-		`Instructions for Rover #${roverIndex} (e.g. LMLMLMLMM): `
+		`Instructions for Rover #${roverIndex} (e.g. LMR): `
 	);
+
+	const parsedPosInput = parsePositionInput(roverPosInput);
+
+	if (parsedPosInput === null) {
+		console.log(`"${roverPosInput}" is an invalid input!`);
+		return;
+	}
+
+	const rover = new Rover(
+		plateauSize,
+		parsedPosInput.position,
+		parsedPosInput.direction,
+		roverInstructions,
+		roverIndex
+	);
+
+	rovers.push(rover);
+};
+
+const processAndPrintOutput = () => {
+	rovers.forEach(rover => {
+		rover.runInstructions();
+		console.log(
+			`Output for Rover #${rover.index}: ${rover.position[POS_X]} ${
+				rover.position[POS_Y]
+			} ${rover.direction}`
+		);
+	});
 };
 
 main();
+
+module.exports = {
+	main
+};
