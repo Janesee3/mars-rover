@@ -9,24 +9,32 @@ const parsePositionInput = positionInput => {
 
 	if (characterArray.length !== EXPECTED_POSITION_INPUT_LENGTH) return null;
 
-	const posX = new Number(characterArray[POS_X]);
-	const posY = new Number(characterArray[POS_Y]);
+	const posX = parseInt(characterArray[POS_X]);
+	const posY = parseInt(characterArray[POS_Y]);
 	const direction = characterArray[DIRECTION_INDEX];
 
 	if (!_isLegalPosition(posX, posY)) return null;
 	if (!_isLegalDirection(direction)) return null;
 
 	return {
-		position: [
-			new Number(characterArray[POS_X]),
-			new Number(characterArray[POS_Y])
-		],
-		direction: characterArray[DIRECTION_INDEX]
+		position: [posX, posY],
+		direction
 	};
 };
 
+const parseSizeInput = sizeInput => {
+	let characterArray = sizeInput.split(" ");
+	if (characterArray.length != EXPECTED_SIZE_INPUT_LENGTH) return null;
+	const maxX = parseInt(characterArray[POS_X]);
+	const maxY = parseInt(characterArray[POS_Y]);
+
+	if (!_isLegalSize(maxX, maxY)) return null;
+
+	return [maxX, maxY];
+};
+
 const _isLegalPosition = (posX, posY) => {
-	return posX instanceof Number && posY instanceof Number;
+	return Number.isInteger(posX) && Number.isInteger(posY);
 };
 
 const _isLegalDirection = direction => {
@@ -37,19 +45,8 @@ const _isLegalDirection = direction => {
 
 const _isLegalSize = (maxX, maxY) => {
 	return (
-		maxX instanceof Number && maxY instanceof Number && maxX > 0 && maxY > 0
+		Number.isInteger(maxX) && Number.isInteger(maxY) && maxX > 0 && maxY > 0
 	);
-};
-
-const parseSizeInput = sizeInput => {
-	let characterArray = positionInput.split(" ");
-	if (characterArray.length != EXPECTED_SIZE_INPUT_LENGTH) return null;
-	const maxX = new Number(characterArray[POS_X]);
-	const maxY = new Number(characterArray[POS_Y]);
-
-	if (!_isLegalSize(maxX, maxY)) return null;
-
-	return [maxX, maxY];
 };
 
 module.exports = {

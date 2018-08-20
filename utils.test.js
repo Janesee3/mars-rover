@@ -1,8 +1,8 @@
-const { parsePositionInput } = require("./utils");
+const { parsePositionInput, parseSizeInput } = require("./utils");
 const { NORTH, SOUTH, EAST, WEST } = require("./constants");
 
 describe("Test for parsePositionInput()", () => {
-	it.only("should return an object with correct position and direction given a valid input", () => {
+	it("should return an object with correct position and direction given a valid input", () => {
 		const expected = {
 			position: [1, 2],
 			direction: NORTH
@@ -24,5 +24,18 @@ describe("Test for parsePositionInput()", () => {
 		expect(parsePositionInput("1 A N")).toEqual(null);
 		expect(parsePositionInput("A 1 N")).toEqual(null);
 		expect(parsePositionInput("1 1 G")).toEqual(null);
+	});
+});
+
+describe("Test for parseSizeInput()", () => {
+	it("should return correct size array if valid input is given", () => {
+		expect(parseSizeInput("5 5")).toEqual([5, 5]);
+	});
+
+	it("should return null for invalid input", () => {
+		expect(parseSizeInput("5")).toEqual(null);
+		expect(parseSizeInput("5 5 5")).toEqual(null);
+		expect(parseSizeInput("a a")).toEqual(null);
+		expect(parseSizeInput("5 a")).toEqual(null);
 	});
 });
