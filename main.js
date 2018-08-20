@@ -1,28 +1,33 @@
 const { getUserInput, rl } = require("./readline-helper");
 
 const main = async () => {
-  const x = await getUserInput(
-    "Specify the size of the Mars plateau (e.g. 5 5):"
-  );
-  console.log("x is", x);
+	const plataeuInput = await getUserInput(
+		"Specify the size of the Mars plateau (e.g. 5 5): "
+	);
 
-  const y = await getUserInput(
-    "Specify the initial coordinates and direction of the mars rover (e.g. 1 2 N):"
-  );
-  console.log("y is", y);
+	const numOfRovers = await getUserInput(
+		"Specify total number of rovers (e.g. 2): "
+	);
 
-  const z = await getUserInput(
-    "Specify the instructions for the mars rover (e.g. LMLMLMLMM):"
-  );
-  console.log("z is", z);
+	for (let i = 0; i < numOfRovers; i++) {
+		await readRover(i + 1);
+	}
 
-  // TODO: include the functions that you've implemented for this kata
+	console.log(
+		"The final coordinates of the mars rover is: <replace with the output of your program>"
+	);
 
-  console.log(
-    "The final coordinates of the mars rover is: <replace with the output of your program>"
-  );
+	rl.close();
+};
 
-  rl.close();
+const readRover = async roverIndex => {
+	const roverInitPos = await getUserInput(
+		`Rover #${roverIndex} initial position (e.g. 1 2 N): `
+	);
+
+	const roverInstructions = await getUserInput(
+		`Instructions for Rover #${roverIndex} (e.g. LMLMLMLMM): `
+	);
 };
 
 main();
