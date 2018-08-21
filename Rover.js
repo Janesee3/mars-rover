@@ -107,6 +107,14 @@ class Rover {
 			position[POS_Y] <= this.maxPosition[POS_Y]
 		);
 	}
+
+	logPosition() {
+		console.log(
+			`Output for Rover #${this.index}: ${this.position[POS_X]} ${
+				this.position[POS_Y]
+			} ${this.direction}`
+		);
+	}
 }
 
 module.exports = Rover;

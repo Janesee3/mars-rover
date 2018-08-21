@@ -66,11 +66,7 @@ const readAndAddRover = async (roverIndex, plateauSize) => {
 const processAndPrintOutput = () => {
 	rovers.forEach(rover => {
 		rover.runInstructions();
-		console.log(
-			`Output for Rover #${rover.index}: ${rover.position[POS_X]} ${
-				rover.position[POS_Y]
-			} ${rover.direction}`
-		);
+		rover.logPosition();
 	});
 };
 
