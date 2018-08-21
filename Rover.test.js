@@ -4,7 +4,8 @@ const { NORTH, SOUTH, EAST, WEST, POS_X, POS_Y } = require("./constants");
 let rover;
 
 beforeEach(() => {
-	rover = new Rover([6, 6], [5, 4], NORTH, "LR");
+	rover = new Rover([5, 4], NORTH, "LR");
+	rover.setMaxPosition([6, 6]);
 });
 
 describe("Test for constructor", () => {
@@ -68,7 +69,8 @@ describe("Test for turnLeft and turnRight", () => {
 
 describe("Test for forward", () => {
 	it("should return correct coordinates when current direction is NORTH", () => {
-		rover = new Rover([5, 5], [3, 4], NORTH);
+		rover = new Rover([3, 4], NORTH);
+		rover.setMaxPosition([5, 5]);
 
 		rover.forward();
 
@@ -76,7 +78,8 @@ describe("Test for forward", () => {
 	});
 
 	it("should return correct coordinates when current direction is SOUTH", () => {
-		rover = new Rover([5, 5], [3, 4], SOUTH);
+		rover = new Rover([3, 4], SOUTH);
+		rover.setMaxPosition([5, 5]);
 
 		rover.forward();
 
@@ -84,7 +87,8 @@ describe("Test for forward", () => {
 	});
 
 	it("should return correct coordinates when current direction is EAST", () => {
-		rover = new Rover([5, 5], [3, 4], EAST);
+		rover = new Rover([3, 4], EAST);
+		rover.setMaxPosition([5, 5]);
 
 		rover.forward();
 
@@ -92,7 +96,8 @@ describe("Test for forward", () => {
 	});
 
 	it("should return correct coordinates when current direction is WEST", () => {
-		rover = new Rover([5, 5], [3, 4], WEST);
+		rover = new Rover([3, 4], WEST);
+		rover.setMaxPosition([5, 5]);
 
 		rover.forward();
 
@@ -100,7 +105,8 @@ describe("Test for forward", () => {
 	});
 
 	it("should return original coordinates if move exceeds max position", () => {
-		rover = new Rover([5, 5], [5, 5], EAST);
+		rover = new Rover([5, 5], EAST);
+		rover.setMaxPosition([5, 5]);
 
 		rover.forward();
 
@@ -110,7 +116,8 @@ describe("Test for forward", () => {
 
 describe("test for runInstructions()", () => {
 	it("should do nothing if empty or no instructions", () => {
-		rover = new Rover([5, 5], [0, 0], NORTH);
+		rover = new Rover([0, 0], NORTH);
+		rover.setMaxPosition([5, 5]);
 
 		rover.runInstructions();
 
@@ -118,34 +125,46 @@ describe("test for runInstructions()", () => {
 	});
 
 	it("should correctly run valid instructions", () => {
-		rover = new Rover([5, 5], [0, 0], NORTH, "M");
+		rover = new Rover([0, 0], NORTH, "M");
+		rover.setMaxPosition([5, 5]);
+
 		rover.runInstructions();
 		expect(rover.position).toEqual([0, 1]);
 		expect(rover.direction).toEqual(NORTH);
 
-		rover = new Rover([5, 5], [0, 0], NORTH, "R");
+		rover = new Rover([0, 0], NORTH, "R");
+		rover.setMaxPosition([5, 5]);
+
 		rover.runInstructions();
 		expect(rover.position).toEqual([0, 0]);
 		expect(rover.direction).toEqual(EAST);
 
-		rover = new Rover([5, 5], [0, 0], NORTH, "L");
+		rover = new Rover([0, 0], NORTH, "L");
+		rover.setMaxPosition([5, 5]);
+
 		rover.runInstructions();
 		expect(rover.position).toEqual([0, 0]);
 		expect(rover.direction).toEqual(WEST);
 
-		rover = new Rover([5, 5], [1, 2], NORTH, "LMLMLMLMM");
+		rover = new Rover([1, 2], NORTH, "LMLMLMLMM");
+		rover.setMaxPosition([5, 5]);
+
 		rover.runInstructions();
 		expect(rover.position).toEqual([1, 3]);
 		expect(rover.direction).toEqual(NORTH);
 
-		rover = new Rover([5, 5], [3, 3], EAST, "MMRMMRMRRM");
+		rover = new Rover([3, 3], EAST, "MMRMMRMRRM");
+		rover.setMaxPosition([5, 5]);
+
 		rover.runInstructions();
 		expect(rover.position).toEqual([5, 1]);
 		expect(rover.direction).toEqual(EAST);
 	});
 
 	it("should not do anything if instructions are not valid", () => {
-		rover = new Rover([5, 5], [0, 0], NORTH, "HIHI");
+		rover = new Rover([0, 0], NORTH, "HIHI");
+		rover.setMaxPosition([5, 5]);
+
 		rover.runInstructions();
 		expect(rover.position).toEqual([0, 0]);
 		expect(rover.direction).toEqual(NORTH);

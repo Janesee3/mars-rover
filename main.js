@@ -2,14 +2,18 @@ const { getUserInput, rl } = require("./readline-helper");
 const { parsePositionInput, parseSizeInput } = require("./utils");
 const { POS_X, POS_Y } = require("./constants");
 const Rover = require("./Rover");
+const Board = require("./Board");
 
 const rovers = [];
-let plateauSize = [-1, -1];
+let board;
 
 const main = async () => {
+	board = new Board();
+
 	await readSizeInput();
 	await readRoversInput();
-	processAndPrintOutput();
+
+	board.runRovers();
 	rl.close();
 };
 
@@ -18,12 +22,14 @@ const readSizeInput = async () => {
 		"Specify the size of the Mars plateau (e.g. 5 5): "
 	);
 
-	plateauSize = parseSizeInput(sizeInput);
+	const plateauSize = parseSizeInput(sizeInput);
 
 	if (plateauSize == null) {
 		console.log("Invalid Plateau Size! Please run the program again.");
 		process.exit();
 	}
+
+	board.setBoardSize(plateauSize);
 };
 
 const readRoversInput = async () => {
@@ -32,11 +38,11 @@ const readRoversInput = async () => {
 	);
 
 	for (let i = 0; i < numOfRovers; i++) {
-		await readAndAddRover(i + 1, plateauSize);
+		await readAndAddRover(i + 1);
 	}
 };
 
-const readAndAddRover = async (roverIndex, plateauSize) => {
+const readAndAddRover = async roverIndex => {
 	const roverPosInput = await getUserInput(
 		`Rover #${roverIndex} initial position (e.g. 1 2 N): `
 	);
@@ -53,22 +59,21 @@ const readAndAddRover = async (roverIndex, plateauSize) => {
 	}
 
 	const rover = new Rover(
-		plateauSize,
 		parsedPosInput.position,
 		parsedPosInput.direction,
 		roverInstructions,
 		roverIndex
 	);
 
-	rovers.push(rover);
+	board.addRover(rover);
 };
 
-const processAndPrintOutput = () => {
-	rovers.forEach(rover => {
-		rover.runInstructions();
-		rover.logPosition();
-	});
-};
+// const processAndPrintOutput = () => {
+// 	rovers.forEach(rover => {
+// 		rover.runInstructions();
+// 		rover.logPosition();
+// 	});
+// };
 
 main();
 

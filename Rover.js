@@ -11,12 +11,16 @@ const {
 } = require("./constants");
 
 class Rover {
-	constructor(maxPosition, initPosition, initDirection, instructions, index) {
-		this.maxPosition = maxPosition; // eg [x, y]
-		this.position = initPosition;
+	constructor(initPosition, initDirection, instructions, index) {
+		this.maxPosition = [-1, -1];
+		this.position = initPosition; // eg [x, y]
 		this.direction = initDirection; // eg. "N"
 		this.instructions = instructions; // eg. "LRMM"
 		this.index = index;
+	}
+
+	setMaxPosition(maxPos) {
+		this.maxPosition = maxPos;
 	}
 
 	runInstructions() {
