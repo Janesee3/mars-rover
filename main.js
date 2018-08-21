@@ -1,10 +1,8 @@
 const { getUserInput, rl } = require("./readline-helper");
 const { parsePositionInput, parseSizeInput } = require("./utils");
-const { POS_X, POS_Y } = require("./constants");
 const Rover = require("./Rover");
 const Board = require("./Board");
 
-const rovers = [];
 let board;
 
 const main = async () => {
@@ -67,13 +65,6 @@ const readAndAddRover = async roverIndex => {
 
 	board.addRover(rover);
 };
-
-// const processAndPrintOutput = () => {
-// 	rovers.forEach(rover => {
-// 		rover.runInstructions();
-// 		rover.logPosition();
-// 	});
-// };
 
 main();
 
